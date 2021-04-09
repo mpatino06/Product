@@ -41,7 +41,7 @@ namespace ProductWEB.Utility
 
         public async Task<ModelStateError> DeleteAsync(string url, int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, url + id);
+            var request = new HttpRequestMessage(HttpMethod.Delete, url + id);
             var httpclient = HttpClientFactory.CreateClient();
             HttpResponseMessage response = await httpclient.SendAsync(request);
 

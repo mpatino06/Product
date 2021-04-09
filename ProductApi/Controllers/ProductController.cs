@@ -45,14 +45,14 @@ namespace ProductApi.Controllers
 
             if (ProductRepository.ProductExist(productDto.Name))
             {
-                ModelState.AddModelError(string.Empty, $"el producto con el nombre {productDto.Name} ya existe");
+                ModelState.AddModelError("Response", $"el producto con el nombre {productDto.Name} ya existe");
                 return StatusCode(404, ModelState);
             }
 
             var product = Mapper.Map<Product>(productDto);
             if (!ProductRepository.CreateProduct(product))
             {
-                ModelState.AddModelError(string.Empty, $"Ha ocurrido un error al intentar guardar el producto {productDto.Name}");
+                ModelState.AddModelError("Response", $"Ha ocurrido un error al intentar guardar el producto {productDto.Name}");
                 return StatusCode(500, ModelState);
             }
 
@@ -67,13 +67,13 @@ namespace ProductApi.Controllers
             var product = Mapper.Map<Product>(productDto);
             if (!ProductRepository.UpdateProduct(product))
             {
-                ModelState.AddModelError(string.Empty, $"Ha ocurrido un error al intentar actualizar el producto {productDto.Name}");
+                ModelState.AddModelError("Response", $"Ha ocurrido un error al intentar actualizar el producto {productDto.Name}");
                 return StatusCode(500, ModelState);
             }
             return NoContent();     
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             if (!ProductRepository.ProductExist(id)) return NotFound();
@@ -82,7 +82,7 @@ namespace ProductApi.Controllers
 
             if (!ProductRepository.DeleteProduct(product))
             {
-                ModelState.AddModelError(string.Empty, $"Ha ocurrido un error al intentar eliminar el producto {product.Name}");
+                ModelState.AddModelError("Response", $"Ha ocurrido un error al intentar eliminar el producto {product.Name}");
                 return StatusCode(500, ModelState);
             }
 
